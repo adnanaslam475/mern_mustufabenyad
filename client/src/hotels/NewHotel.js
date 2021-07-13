@@ -46,22 +46,22 @@ const NewHotel = () => {
   };
 
   const handleImageChange = (e) => {
-    setPreview(URL.createObjectURL(e.target.files[0]));
-    setValues({ ...values, image: e.target.files[0] });
-
-
-    const data = new FormData()
-    data.append('file', e.target.files[0])
-    data.append("upload_preset", "olxApp")
-    data.append("cloud_name", "mernapp")
-    fetch(url, {
-      method: "post",
-      body: data
-    }).then(res => res.json()).then(data => {
-      setImageUrl(data.url)
-    }).catch(err => {
-      alert('network error, cannot upload image')
-    })
+    if (e.target.files[0]) {
+      setPreview(URL.createObjectURL(e.target.files[0]));
+      setValues({ ...values, image: e.target.files[0] });
+      const data = new FormData()
+      data.append('file', e.target.files[0])
+      data.append("upload_preset", "olxApp")
+      data.append("cloud_name", "mernapp")
+      fetch(url, {
+        method: "post",
+        body: data
+      }).then(res => res.json()).then(data => {
+        setImageUrl(data.url)
+      }).catch(err => {
+        alert('network error, cannot upload image')
+      })
+    }
   }
 
 

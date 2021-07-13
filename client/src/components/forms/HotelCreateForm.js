@@ -1,18 +1,21 @@
 import React from 'react';
+import algoliasearch from 'algoliasearch/lite';
 
-import AlgoliaPlaces from "algolia-places-react";
+// import AlgoliaPlaces from "algolia-places-react";
 import { DatePicker } from "antd";
 import { Select } from "antd";
+import { InstantSearch, ClearRefinements } from 'react-instantsearch-dom';
+import Places from './Widget';
 import moment from "moment";
 
 const { Option } = Select;
 
-const config = {
-  appId: '08SSDUYVXB',
-  apiKey: '4fedad0a5f82e46df7ae3fa3ae426a32',
-  language: "en",
-  countries: ["us"],
-};
+// const config = {
+//   appId: '08SSDUYVXB',
+//   apiKey: '4fedad0a5f82e46df7ae3fa3ae426a32',
+//   language: "en",
+//   countries: ["us"],
+// };
 
 const HotelCreateForm = ({
   values, imageUrl,
@@ -23,6 +26,11 @@ const HotelCreateForm = ({
   location,
   setLocation,
 }) => {
+
+  const searchClient = algoliasearch(
+    'latency',
+    '6be0576ff61c053d5f9a3225e2a90f76'
+  );
   const { title, content, price, image, bed, from, to } = values;
 
   return (
@@ -48,7 +56,6 @@ const HotelCreateForm = ({
           className="form-control m-2"
           value={title}
         />
-
         <textarea
           name="content"
           onChange={handleChange}
@@ -57,15 +64,24 @@ const HotelCreateForm = ({
           value={content}
         />
 
-        <AlgoliaPlaces
-          className="form-control m-2"
-          placeholder="Location"
-          defaultValue={location}
-          options={config}
-          onChange={({ suggestion }) => setLocation(suggestion.value)}
-          style={{ height: "40px" }}
-        />
+        
 
+        <div className="ais-InstantSearch">
+          <InstantSearch indexName="airports" searchClient={searchClient}>
+            <div className="search-panel">
+              <div className="search-panel__results">
+                <Places
+                  defaultRefinement={{
+                    lat: 37.7793,
+                    lng: -122.419,
+                  }}
+
+                />
+
+              </div>
+            </div>
+          </InstantSearch>
+        </div>
         <input
           type="number"
           name="price"

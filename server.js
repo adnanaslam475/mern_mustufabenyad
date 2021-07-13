@@ -12,7 +12,10 @@ dotenv.config()
 
 const app = express();
 
-// db connection
+
+
+
+
 mongoose
   .connect(process.env.DATABASE, {
     useNewUrlParser: true,
