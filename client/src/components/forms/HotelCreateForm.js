@@ -1,21 +1,21 @@
 import React from 'react';
 
 import AlgoliaPlaces from "algolia-places-react";
-import { DatePicker} from "antd";
+import { DatePicker } from "antd";
 import { Select } from "antd";
 import moment from "moment";
 
 const { Option } = Select;
 
 const config = {
-  appId: process.env.REACT_APP_ALGOLIA_APP_ID,
-  apiKey: process.env.REACT_APP_ALGOLIA_API_KEY,
+  appId: '08SSDUYVXB',
+  apiKey: '4fedad0a5f82e46df7ae3fa3ae426a32',
   language: "en",
-  // countries: ["au"],
+  countries: ["us"],
 };
 
 const HotelCreateForm = ({
-  values,
+  values, imageUrl,
   setValues,
   handleChange,
   handleImageChange,
@@ -75,12 +75,12 @@ const HotelCreateForm = ({
           value={price}
         />
 
-         <Select
+        <Select
           onChange={(value) => setValues({ ...values, bed: value })}
           className="w-100 m-2"
           size="large"
           placeholder="Number of rooms"
-             >
+        >
           <Option key={1}>{1}</Option>
           <Option key={2}>{2}</Option>
           <Option key={3}>{3}</Option>
@@ -92,32 +92,32 @@ const HotelCreateForm = ({
           <Option key={10}>{10}</Option>
           <Option key={11}>{11}</Option>
           <Option key={12}>{12}</Option>
-          </Select>
+        </Select>
 
 
       </div>
       <DatePicker
-             placeholder="From date"
-             className="form-control m-2"
-             onChange={(date, dateString) => 
-                setValues({ ...values, from: dateString })
-            }
-             disabledDate={(current) => 
-                current && current.valueOf() < moment().subtract(1, "days")
-            }
-           />
-            <DatePicker
-             placeholder="To date"
-             className="form-control m-2"
-             onChange={(date, dateString) => 
-                setValues({ ...values, to: dateString })
-            }
-             disabledDate={(current) =>
-                 current && current.valueOf() < moment().subtract(1, "days")
-            }
-             />
-             <button className="btn btn-outline-primary m-2">Save</button>
-    
+        placeholder="From date"
+        className="form-control m-2"
+        onChange={(date, dateString) =>
+          setValues({ ...values, from: dateString })
+        }
+        disabledDate={(current) =>
+          current && current.valueOf() < moment().subtract(1, "days")
+        }
+      />
+      <DatePicker
+        placeholder="To date"
+        className="form-control m-2"
+        onChange={(date, dateString) =>
+          setValues({ ...values, to: dateString })
+        }
+        disabledDate={(current) =>
+          current && current.valueOf() < moment().subtract(1, "days")
+        }
+      />
+      <button className="btn btn-outline-primary m-2">Save</button>
+
     </form>
   );
 

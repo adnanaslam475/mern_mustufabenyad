@@ -1,34 +1,12 @@
 import Hotel from "../models/hotel";
 import fs from "fs";
 
-import cloudinary from 'cloudinary';
-
-
-cloudinary.config({
-  cloud_name: 'mernapp',
-  api_key: '556571676319423',
-  api_secret: '_wpi5_kEbzebQzNFKgt7yF24IAU',
-  secure: true
-});
 export const create = async (req, res) => {
-  console.log("req.fields", req.fields);
-  console.log("req.files", req.files);
   try {
     let fields = req.fields;
-    let files = req.files;
-
     let hotel = new Hotel(fields);
     hotel.postedBy = req.user._id;
-    // handle image
-    if (files.image) {
-      hotel.image.data = fs.readFileSync(files.image.path);
-      hotel.image.contentType = files.image.type;
-    }
-
-    const imageurl = await cloudinary.v2.uploader.upload(hotel.image.data,
-      function (error, result) { console.log(result, error) });
-
-    console.log('imagurl', imageurl)
+    
     await hotel.save((err, result) => {
       if (err) {
         console.log("saving hotel err => ", err);

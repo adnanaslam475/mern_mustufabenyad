@@ -35,7 +35,6 @@ const HotelEditForm = ({
             hidden
           />
         </label>
-
         <input
           type="text"
           name="title"
