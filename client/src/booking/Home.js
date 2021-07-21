@@ -49,6 +49,7 @@ const Home = () => {
         setmsg('cannot get locations , network error')
       })
     }
+    
   }, [input.latitude])
 
 
