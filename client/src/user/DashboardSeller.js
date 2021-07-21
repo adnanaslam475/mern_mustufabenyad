@@ -1,7 +1,7 @@
 
-import React,{ useState } from "react";
+import React, { useState,useEffect } from "react";
 import DashboardNav from "../components/DashboardNav";
-import { Link } from "react-router-dom";
+import { Link,useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { HomeOutlined } from "@ant-design/icons";
 import { createConnectAccount } from "../actions/stripe";
@@ -11,7 +11,17 @@ import { toast } from "react-toastify";
 const DashboardSeller = () => {
   const { auth } = useSelector((state) => ({ ...state }));
   const [loading, setLoading] = useState(true);
+  const history = useHistory()
 
+
+  useEffect(() => {
+    const token = localStorage.getItem('auth')
+    const t = JSON.parse(token)
+    if (!t?.token) {
+      history.push('/login')
+    }
+
+  }, [])
   const handleClick = async () => {
     setLoading(true);
     try {
@@ -73,7 +83,7 @@ const DashboardSeller = () => {
   return (
     <>
       <div className="container-fluid bg-primary p-5">
-        <h1>Dashboard</h1> 
+        <h1>Dashboard</h1>
       </div>
 
       <div className="container-fluid p-4">
@@ -81,9 +91,9 @@ const DashboardSeller = () => {
       </div>
 
       {auth &&
-      auth.user &&
-      auth.user.stripe_seller &&
-      auth.user.stripe_seller.charges_enabled
+        auth.user &&
+        auth.user.stripe_seller &&
+        auth.user.stripe_seller.charges_enabled
         ? connected()
         : notConnected()}
 

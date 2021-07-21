@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
+import { token } from 'morgan';
 
 
 const TopNav = () => {
@@ -9,15 +10,14 @@ const TopNav = () => {
   const dispatch = useDispatch();
   let [tokenlocal, settokenlocal] = useState(null)
   const user = useSelector(s => s);
+  const [token, settoken] = useState('')
 
 
 
-  
   useEffect(() => {
     const token = localStorage.getItem('auth')
     const t = JSON.parse(token)
     settokenlocal(t?.token || user.token)
-    // console.log(t.token,user.token)
   }, [user])
 
 
@@ -40,9 +40,9 @@ const TopNav = () => {
       </Link>
 
       <div className="nav bg-light d-flex justify-content-between">
-        <Link className="nav-link" to="/dashboard">
+        {tokenlocal && <Link className="nav-link" to="/dashboard">
           Dashboard
-        </Link>
+        </Link>}
         <div className="nav bg-light d-flex justify-content-between">
           {!tokenlocal ? <div style={{ display: 'flex' }}>
             <Link className="nav-link" to="/login">

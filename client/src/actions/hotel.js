@@ -47,4 +47,4 @@ export const updateHotel = async (token, data, hotelId) =>
         Authorization: `Bearer ${token}`,
       },
     }
-  );
+  )

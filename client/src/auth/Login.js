@@ -28,7 +28,6 @@ const Login = ({ history }) => {
       console.log('res with hotelapii',res)
       if (res.data) {
         window.localStorage.setItem("auth", JSON.stringify(res.data));
-
         dispatch({
           type: "LOGGED_IN_USER",
           payload: res.data,

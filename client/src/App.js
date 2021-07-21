@@ -11,11 +11,6 @@ import "react-toastify/dist/ReactToastify.css";
 import StripeCallback from "./stripe/StripeCallback"
 import NewHotel from './hotels/NewHotel';
 
-/**
- * lets create Topnavigation/manu bar so that we can easily TopNavigate between pages
- * lets write it in App.js before we move it to its own component
- */
-
 // http://engine.hotellook.com/api/v2/static/hotels.json?locationId=2880&token=957018d5a69e4436c45764bad40fd29c
 function App() {
   return (

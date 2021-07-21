@@ -5,7 +5,7 @@ import connect from './Connector';
 
 class Places extends Component {
     static propTypes = {
-        refine: PropTypes.func.isRequired,
+        refine: PropTypes.func.isRequired, 
         defaultRefinement: PropTypes.object.isRequired,
     };
 

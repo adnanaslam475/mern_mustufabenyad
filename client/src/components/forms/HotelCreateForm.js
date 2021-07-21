@@ -3,18 +3,17 @@ import algoliasearch from 'algoliasearch/lite';
 
 import { DatePicker } from "antd";
 import { Select } from "antd";
-// import { InstantSearch, ClearRefinements } from 'react-instantsearch-dom';
-import Places from './Widget';
 import moment from "moment";
+
 
 const { Option } = Select;
 
-const config = {
-  appId: '08SSDUYVXB',
-  apiKey: 'da119de21d0f54287575192fc8e4e70b',
-  language: "en",
-  countries: ["us"],
-};
+// const config = {
+//   appId: '08SSDUYVXB',
+//   apiKey: 'da119de21d0f54287575192fc8e4e70b',
+//   language: "en",
+//   countries: ["us"],
+// };
 
 const HotelCreateForm = ({
   values,
@@ -22,8 +21,6 @@ const HotelCreateForm = ({
   handleChange,
   handleImageChange,
   handleSubmit,
-  location,
-  setLocation,
 }) => {
 
   const searchClient = algoliasearch(

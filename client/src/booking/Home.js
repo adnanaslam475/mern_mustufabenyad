@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { DatePicker,Input } from 'antd';
-import { allHotels } from '../actions/hotel';
-// import SmallCard from "../components/cards/SmallCard";
+// import { allHotels } from '../actions/hotel';
 
-import { useSelector, userSelector, useStore } from "react-redux";
+import { useSelector,  } from "react-redux";
 // import {} from './';
 import axios from 'axios';
 import moment from 'moment';
 
 const Home = () => {
-  const state = useSelector((state) => ({ ...state }));
+  // const state = useSelector((state) => ({ ...state }));
   const [input, setinput] = useState({
     latitude: '', longitude: "",
     city: '', checkIn: '', checkOut: '',
     guests: ''
-  })
+  });
   const [city, setcity] = useState('')
   const [hotels, sethotels] = useState([])
   const [cityId, setcityId] = useState('')

@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
 // import { useDispatch } from "react-redux";
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import axios from 'axios';
 import DashboardNav from "../components/DashboardNav"
 
 const Dashboard = () => {
     const [hotels, setHotels] = useState(null)
     // const dispatch = useDispatch()
-
+    const history = useHistory()
 
     useEffect(() => {
+        const token = localStorage.getItem('auth')
+        const t = JSON.parse(token)
+        if (!t?.token) {
+            history.push('/login')
+        }
         axios.get(`${process.env.REACT_APP_API}/hotels`, {
             headers: {
                 'Content-Type': 'application/json'
@@ -23,7 +28,6 @@ const Dashboard = () => {
 
 
 
-    console.log(hotels)
     return (
         <>
             <div className="container-fluid bg-primary p-5">
@@ -31,7 +35,6 @@ const Dashboard = () => {
             </div>
             <div className="container-fluid p-4">
                 <DashboardNav />
-
             </div>
 
             <div className="container-fluid">
@@ -48,7 +51,7 @@ const Dashboard = () => {
                     </div>
                     {hotels?.map((v, i) => <div key={i}>
                         <ul>
-                           
+
                         </ul> </div>)}
                 </div>
             </div>

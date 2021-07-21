@@ -26,11 +26,12 @@ const Register = () => {
       const { name,
         email,
         password, } = input;
-      const res = await axios.post(`http://localhost:8000/api/register`, {
+        const res = await axios.post(`/api/register`, {
         name,
         email,
         password,
       });
+      console.log('res regster-->', res)
       res.data.ok == false && setmsg(res.data.msg);
       if (res.data.ok == true) {
         history.push('/login')

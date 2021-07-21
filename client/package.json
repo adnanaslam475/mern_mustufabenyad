@@ -2,6 +2,8 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8000/",
+  "preferGlobal": false,
   "dependencies": {
     "@algolia/autocomplete-js": "1.2.1",
     "@ant-design/icons": "^4.3.0",
