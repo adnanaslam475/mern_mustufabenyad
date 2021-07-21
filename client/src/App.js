@@ -7,7 +7,6 @@ import Help from './auth/Help';
 import Dashboard from "./user/Dashboard";
 import TopNav from './components/TopNav';
 import DashboardSeller from "./user/DashboardSeller";
-// import HotelCreateForm from './components/forms/HotelCreateForm';
 import "react-toastify/dist/ReactToastify.css";
 import StripeCallback from "./stripe/StripeCallback"
 import NewHotel from './hotels/NewHotel';
@@ -17,11 +16,11 @@ import NewHotel from './hotels/NewHotel';
  * lets write it in App.js before we move it to its own component
  */
 
+// http://engine.hotellook.com/api/v2/static/hotels.json?locationId=2880&token=957018d5a69e4436c45764bad40fd29c
 function App() {
   return (
     <BrowserRouter>
       <TopNav />
-
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/help" component={Help} />

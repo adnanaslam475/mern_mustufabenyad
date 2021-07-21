@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { createHotel } from "../actions/hotel";
 import HotelCreateForm from "../components/forms/HotelCreateForm";
 import { useHistory } from "react-router-dom";
+// import cities from './';
 
 const NewHotel = () => {
   const history = useHistory()

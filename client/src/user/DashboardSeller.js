@@ -1,7 +1,6 @@
 
 import React,{ useState } from "react";
 import DashboardNav from "../components/DashboardNav";
-// import ConnectNav from "../components/ConnectNav";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { HomeOutlined } from "@ant-design/icons";

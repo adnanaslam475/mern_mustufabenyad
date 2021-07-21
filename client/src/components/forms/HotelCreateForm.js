@@ -9,13 +9,13 @@ const { Option } = Select;
 
 const config = {
   appId: '08SSDUYVXB',
-  apiKey: '4fedad0a5f82e46df7ae3fa3ae426a32',
+  apiKey: 'da119de21d0f54287575192fc8e4e70b',
   language: "en",
   countries: ["us"],
 };
 
 const HotelCreateForm = ({
-  values, imageUrl,
+  values,
   setValues,
   handleChange,
   handleImageChange,
@@ -25,10 +25,10 @@ const HotelCreateForm = ({
 }) => {
   const { title, content, price, image, bed, from, to } = values;
 
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
-
         <label className="btn btn-outline-secondary btn-block m-2 text-left">
           Image
           <input
@@ -57,14 +57,14 @@ const HotelCreateForm = ({
           value={content}
         />
 
-        <AlgoliaPlaces
+        {/* <AlgoliaPlaces
           className="form-control m-2"
           placeholder="Location"
           defaultValue={location}
           options={config}
           onChange={({ suggestion }) => setLocation(suggestion.value)}
           style={{ height: "40px" }}
-        />
+        /> */}
 
         <input
           type="number"
