@@ -25,6 +25,7 @@ const Login = ({ history }) => {
     const { email, password } = input
     try {
       let res = await login({ email, password });
+      console.log('res with hotelapii',res)
       if (res.data) {
         window.localStorage.setItem("auth", JSON.stringify(res.data));
 
