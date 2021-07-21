@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { DatePicker,Input } from 'antd';
 // import { allHotels } from '../actions/hotel';
 
-import { useSelector,  } from "react-redux";
-// import {} from './';
+// import { useSelector,  } from "react-redux";
 import axios from 'axios';
 import moment from 'moment';
 
@@ -41,7 +40,7 @@ const Home = () => {
 
   useEffect(() => {
     if (input.latitude) {
-      axios.get(`http://engine.hotellook.com/api/v2/lookup.json?query=${input.latitude},${input.longitude}&lang=en&lookFor=city&limit=1&token=957018d5a69e4436c45764bad40fd29c`).then(res => {
+      axios.get(`https://engine.hotellook.com/api/v2/lookup.json?query=${input.latitude},${input.longitude}&lang=en&lookFor=city&limit=1&token=957018d5a69e4436c45764bad40fd29c`).then(res => {
         setcity(res.data.results.locations[0].name)
         setcityId(res.data.results.locations[0].id)
       }).catch(err => {
@@ -54,7 +53,7 @@ const Home = () => {
 
   const submit = e => {
     e.preventDefault();
-    axios.get(`http://engine.hotellook.com/api/v2/static/hotels.json?locationId=${cityId}&token=957018d5a69e4436c45764bad40fd29c`)
+    axios.get(`https://engine.hotellook.com/api/v2/static/hotels.json?locationId=${cityId}&token=957018d5a69e4436c45764bad40fd29c`)
       .then(res => {
         sethotels(res.data.hotels)
       }).catch(err => {
