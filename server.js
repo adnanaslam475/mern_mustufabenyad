@@ -15,13 +15,13 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 
-mongoose
-  .connect(process.env.DATABASELocal, {
-    useNewUrlParser: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
+mongoose.connect(process.env.DATABASE,
+    {
+      useNewUrlParser: true,
+      useFindAndModify: false,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    })
   .then(() => console.log("DB Connected"))
   .catch((err) => console.log("DB Connection Error: ", err));
 

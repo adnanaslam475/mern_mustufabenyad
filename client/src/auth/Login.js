@@ -25,7 +25,6 @@ const Login = ({ history }) => {
     const { email, password } = input
     try {
       let res = await login({ email, password });
-      console.log('res with hotelapii',res)
       if (res.data) {
         window.localStorage.setItem("auth", JSON.stringify(res.data));
         dispatch({
@@ -41,7 +40,6 @@ const Login = ({ history }) => {
         }
       }
     } catch (err) {
-      console.log('login err--->', err);
       toast.error(err.response.data);
     }
   };

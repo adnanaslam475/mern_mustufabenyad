@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "start": "nodemon --experimental-modules --es-module-specifier-resolution=node server.js",
     "client-install": "npm install --prefix client",
