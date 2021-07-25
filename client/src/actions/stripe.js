@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const createConnectAccount = async (token) =>
   await axios.post(
-    `${process.env.REACT_APP_API}/create-connect-account`,
+    `/api/create-connect-account`,
     {},
     {
       headers: {
@@ -13,7 +13,7 @@ export const createConnectAccount = async (token) =>
 
 export const getAccountStatus = async (token) =>
   axios.post(
-    `${process.env.REACT_APP_API}/get-account-status`,
+    `/api/get-account-status`,
     {},
     {
       headers: {
@@ -24,7 +24,7 @@ export const getAccountStatus = async (token) =>
 
 export const getAccountBalance = async (token) =>
   axios.post(
-    `${process.env.REACT_APP_API}/get-account-balance`,
+    `/api/get-account-balance`,
     {},
     {
       headers: {
@@ -43,7 +43,7 @@ export const currencyFormatter = (data) => {
 
 export const payoutSetting = async (token) =>
   await axios.post(
-    `${process.env.REACT_APP_API}/payout-setting`,
+    `/api/payout-setting`,
     {},
     {
       headers: {

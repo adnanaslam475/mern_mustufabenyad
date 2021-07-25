@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const createHotel = async (token, data) => {
   console.log('token --> data-->', token, data)
-  await axios.post(`${process.env.REACT_APP_API}/create-hotel`, data, {
+  await axios.post(`/api/create-hotel`, data, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`,
@@ -11,7 +11,7 @@ export const createHotel = async (token, data) => {
 }
 
 export const allHotels = async () =>
-  await axios.post(`${process.env.REACT_APP_API}/hotels`);
+  await axios.post(`/api/hotels`);
 
 export const diffDays = (from, to) => {
   const day = 24 * 60 * 60 * 1000;
@@ -22,25 +22,25 @@ export const diffDays = (from, to) => {
 };
 
 export const sellerHotels = async (token) =>
-  await axios.get(`${process.env.REACT_APP_API}/seller-hotels`, {
+  await axios.get(`/api/seller-hotels`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 
 export const deleteHotel = async (token, hotelId) =>
-  await axios.delete(`${process.env.REACT_APP_API}/delete-hotel/${hotelId}`, {
+  await axios.delete(`/api/delete-hotel/${hotelId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 
 export const read = async (hotelId) =>
-  await axios.get(`${process.env.REACT_APP_API}/hotel/${hotelId}`);
+  await axios.get(`/api/hotel/${hotelId}`);
 
 export const updateHotel = async (token, data, hotelId) =>
   await axios.put(
-    `${process.env.REACT_APP_API}/update-hotel/${hotelId}`,
+    `/api/update-hotel/${hotelId}`,
     data,
     {
       headers: {

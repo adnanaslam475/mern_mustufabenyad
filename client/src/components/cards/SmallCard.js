@@ -18,7 +18,7 @@ const SmallCard = ({
           <div className="col-md-4">
             {h.image && h.image.contentType ? (
               <img
-                src={`${process.env.REACT_APP_API}/hotel/image/${h._id}`}
+                src={`/api/hotel/image/${h._id}`}
                 alt="default hotel image"
                 className="card-image img img-fluid"
               />

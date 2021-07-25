@@ -19,7 +19,7 @@ const ViewHotel = ({ match, history }) => {
     let res = await read(match.params.hotelId);
     // console.log(res);
     setHotel(res.data);
-    setImage(`${process.env.REACT_APP_API}/hotel/image/${res.data._id}`);
+    setImage(`/api/hotel/image/${res.data._id}`);
   };
 
   const handleClick = async (e) => {

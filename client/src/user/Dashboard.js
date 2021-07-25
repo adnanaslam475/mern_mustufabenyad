@@ -15,7 +15,7 @@ const Dashboard = () => {
         if (!t?.token) {
             history.push('/login')
         }
-        axios.get(`${process.env.REACT_APP_API}/hotels`, {
+        axios.get(`/api/hotels`, {
             headers: {
                 'Content-Type': 'application/json'
             }
