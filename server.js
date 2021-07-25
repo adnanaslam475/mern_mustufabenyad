@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 
+
 import Auth from './routes/auth'
 import Hotel from './routes/hotel'
 import Stripe from './routes/stripe'
@@ -16,12 +17,12 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 mongoose.connect(process.env.DATABASE,
-    {
-      useNewUrlParser: true,
-      useFindAndModify: false,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-    })
+  {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
   .then(() => console.log("DB Connected"))
   .catch((err) => console.log("DB Connection Error: ", err));
 

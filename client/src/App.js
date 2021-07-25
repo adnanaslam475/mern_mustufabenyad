@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Home from './booking/Home';
 import Login from './auth/Login';
@@ -10,8 +11,9 @@ import DashboardSeller from "./user/DashboardSeller";
 import "react-toastify/dist/ReactToastify.css";
 import StripeCallback from "./stripe/StripeCallback"
 import NewHotel from './hotels/NewHotel';
+import Payment from './components/Payments';
 
-// http://engine.hotellook.com/api/v2/static/hotels.json?locationId=2880&token=957018d5a69e4436c45764bad40fd29c
+
 function App() {
   return (
     <BrowserRouter>
@@ -21,6 +23,7 @@ function App() {
         <Route exact path="/help" component={Help} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
+        <Route exact path="/payment" component={Payment} />
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/dashboard/seller" component={DashboardSeller} />
         <Route exact path="/hotels/new" component={NewHotel} />

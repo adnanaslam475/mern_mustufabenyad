@@ -1,8 +1,48 @@
 import User from "../models/user";
 import Stripe from "stripe";
 import queryString from "query-string";
-
+// import uuid from 'uuid';
 const stripe = Stripe(process.env.STRIPE_SECRET);
+
+
+
+
+export const payment = async (req, res) => {
+  try {
+    const { product, token } = req.body;
+    console.log("Product--->", product);
+    console.log("Price-->", product.price);
+
+
+    const idempotencyKey = Math.random().toFixed(25).split('.')[1];
+    console.log('idempotencyKey==>', idempotencyKey)
+    return stripe.customers.create({
+      email: token.email,
+      source: token.id
+    })
+      .then(customer => {
+        stripe.charger.create({
+          amount: product.price * 100,
+          currency: 'usd',
+          customer: customer.id,
+          receipt_email: token.email,
+          description: `purchase of $(product.name)`,
+          shipping: {
+            name: token.card.name,
+            address: {
+              country: token.card.address_country
+            }
+          }
+        }, { idempotencyKey })
+      })
+      .then(result => res.status(200).json(result))
+      .catch(err => { console.log(err) })
+  } catch (err) {
+    console.log("STRIPE PAYOUT SETTING ERR ", err);
+  }
+};
+
+
 
 export const createConnectAccount = async (req, res) => {
   // 1. find user from db
@@ -64,7 +104,6 @@ export const getAccountStatus = async (req, res) => {
   )
     .select("-password")
     .exec();
-  // console.log(updatedUser);
   res.json(updatedUser);
 };
 
@@ -98,7 +137,6 @@ export const payoutSetting = async (req, res) => {
     console.log("STRIPE PAYOUT SETTING ERR ", err);
   }
 };
- 
 
 export const stripeSessionId = async (req, res) => {
   // console.log("you hit stripe session id", req.body.hotelId);

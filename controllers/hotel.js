@@ -1,6 +1,6 @@
 import Hotel from "../models/hotel";
 import fs from "fs";
-import axios from 'axios';
+// import axios from 'axios';
 export const create = async (req, res) => {
   try {
     let fields = req.fields;
@@ -32,21 +32,6 @@ export const hotels = async (req, res) => {
   res.json(all);
 };
 
-export const getcitycode = async (req, res) => {
-  try {
-    const { latitude, longitude } = req.query;
-    const res =await axios.get(`http://engine.hotellook.com/api/v2/lookup.json?query=${latitude},${longitude}&lang=en&lookFor=city&limit=1&token=957018d5a69e4436c45764bad40fd29c`)
-    console.log('res=====>',res)
-  } catch (error) {
-    res.send({ msg: 'cannot get locations , network error' })
-  }
-}
-
-
-
-export const getsearch_hotels = async (req, res) => {
-
-};
 
 
 

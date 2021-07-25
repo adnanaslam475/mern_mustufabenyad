@@ -7,14 +7,10 @@ const router = express.Router();
 import { requireSignin, hotelOwner } from "../middlewares";
 
 // controllers
-import { create, hotels, image, sellerHotels, remove, read, getcitycode, getsearch_hotels } from "../controllers/hotel";
+import { create, hotels, image, sellerHotels, remove, read } from "../controllers/hotel";
 
 router.post("/create-hotel", requireSignin, formidable(), create);
 router.get("/hotels", hotels);
-//city code of search
-router.get("/citycode", getcitycode);
-//get all hotels
-router.get("/hotel_search", getsearch_hotels);
 router.post("/hotel/image/:hotelId", image);
 router.post("/seller-hotels", requireSignin, sellerHotels);
 router.delete("/delete-hotel/:hotelId", requireSignin, hotelOwner, remove);
