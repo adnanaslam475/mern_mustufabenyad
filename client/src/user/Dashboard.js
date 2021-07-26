@@ -5,8 +5,7 @@ import axios from 'axios';
 import DashboardNav from "../components/DashboardNav"
 
 const Dashboard = () => {
-    const [hotels, setHotels] = useState(null)
-    // const dispatch = useDispatch()
+    const [hotels, setHotels] = useState(null);
     const history = useHistory()
 
     useEffect(() => {

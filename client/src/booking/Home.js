@@ -1,24 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { DatePicker, Input } from 'antd';
-// import { allHotels } from '../actions/hotel';
+import { Button, DatePicker, Input } from 'antd';
 
+import { Grid, Typography } from '@material-ui/core';
 import { useSelector, } from "react-redux";
 import axios from 'axios';
 import moment from 'moment';
 
-
-//photos of hotels
-// GET https://yasen.hotellook.com/photos/hotel_photos?id=27926056,4
-
-
-
 const Home = () => {
-  const state = useSelector((state) => ({ ...state }));
+  // const state = useSelector((state) => ({ ...state }));
   const [input, setinput] = useState({
     latitude: '', longitude: "",
     city: '', checkIn: '', checkOut: '',
     guests: ''
   });
+
   const [city, setcity] = useState('')
   const [hotels, sethotels] = useState([])
   const [cityId, setcityId] = useState('')
@@ -58,18 +53,19 @@ const Home = () => {
   }, [input.latitude])
 
 
-  const submit = e => {
-    e.preventDefault();
-    axios.get(`https://engine.hotellook.com/api/v2/static/hotels.json?locationId=${cityId}&token=957018d5a69e4436c45764bad40fd29c`)
-      .then(res => {
-        sethotels(res.data.hotels)
-      }).catch(err => {
-        console.log(err)
-      })
+  useEffect(() => {
+    if (cityId.trim().length) {
+      console.log('yeh---->', input.latitude)
+      axios.get(`https://engine.hotellook.com/api/v2/static/hotels.json?locationId=${cityId}&token=957018d5a69e4436c45764bad40fd29c`)
+        .then(res => {
+          sethotels(res.data.hotels)
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+  }, [cityId])
 
-  }
 
-  
 
   return (
     <div className="container-fluid h1 p-5 text-center">
@@ -93,18 +89,34 @@ const Home = () => {
         value={input.guests}
         placeholder='enter guest'
       />
-      <button onClick={submit} className="btn btn-outline-primary m-2">Search</button>
-      {hotels.map((v, i) => {
-        return (<div key={i}>
-          <img src={v.photos[0]?.url||'https://i.stack.imgur.com/y9DpT.jpg'} style={{
-            width: '200px',
-            height: '200px'
-          }} alt='i' />
-          <p>Name : {v.name.en}</p>
-          <p>check in : {v.checkIn || 'not available'}</p>
-          <p>check out : {v.checkOut || 'not available'}</p>
-        </div>)
-      })}
+      <button className="btn btn-outline-primary m-2">Search</button>
+      <Grid container >{hotels.map((v, i) => {
+        return (<Grid item style={{
+          padding: '2% 0 2% 0',
+          marginBottom: '20px',
+        }}
+          md={4} xs={12} sm={6} xl={4} lg={4} key={i}>
+          <img src={v.photos[0]?.url || 'https://i.stack.imgur.com/y9DpT.jpg'}
+            style={{
+              minWidth: "95%",
+              maxWidth: "95%",
+              maxHeight: "70%",
+              minHeight: "70%",
+              marginBottom:'10px'
+            }}
+            alt='i' />
+          <Typography>Name : {v.name.en}</Typography>
+          <Typography>check in time : {v.checkIn || 'not available'}</Typography>
+          <Typography>check out time : {v.checkOut || 'not available'}</Typography>
+          <Button  style={{
+            backgroundColor: 'blue',
+            color: 'white',
+            borderRadius: '5px',
+            width:'50%'
+          }} color='blue'
+            onClick={() => ''} >Book</Button>
+        </Grid>)
+      })}</Grid>
     </div>
   );
 };

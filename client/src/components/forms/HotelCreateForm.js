@@ -27,7 +27,7 @@ const HotelCreateForm = ({
     'latency',
     '6be0576ff61c053d5f9a3225e2a90f76'
   );
-  const { title, content, price, image, bed, from, to } = values;
+  const { title, content, price, } = values;
 
 
   return (
@@ -60,7 +60,7 @@ const HotelCreateForm = ({
           value={content}
         />
 
-       
+
         <input
           type="number"
           name="price"
