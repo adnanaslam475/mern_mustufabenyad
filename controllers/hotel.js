@@ -1,6 +1,8 @@
 import Hotel from "../models/hotel";
 import fs from "fs";
 // import axios from 'axios';
+
+
 export const create = async (req, res) => {
   try {
     let fields = req.fields;
@@ -14,8 +16,9 @@ export const create = async (req, res) => {
       }
       res.json(result);
     });
+    console.log('createhotel-->',hotel)
   } catch (err) {
-    console.log(err);
+    console.log('err20', err);
     res.status(400).json({
       err: err.message,
     });
@@ -45,12 +48,18 @@ export const image = async (req, res) => {
 };
 
 export const sellerHotels = async (req, res) => {
-  let all = await Hotel.find({ postedBy: req.user._id })
-    .select("-image.data")
-    .populate("postedBy", "_id name")
-    .exec();
-  // console.log(all);
-  res.send(all);
+  console.log('req chaliss')
+  try {
+    let all = await Hotel.find({ postedBy: req.user._id })
+      .select("-image.data")
+      .populate("postedBy", "_id name")
+      .exec();
+    console.log('req.user.id', req.user._id)
+    console.log(all);
+    res.json(all);
+  } catch (error) {
+    console.log('error57', error)
+  }
 };
 
 export const remove = async (req, res) => {

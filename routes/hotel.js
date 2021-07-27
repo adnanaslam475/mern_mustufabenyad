@@ -10,9 +10,9 @@ import { requireSignin, hotelOwner } from "../middlewares";
 import { create, hotels, image, sellerHotels, remove, read } from "../controllers/hotel";
 
 router.post("/create-hotel", requireSignin, formidable(), create);
-router.get("/hotels", hotels);
+router.get("/hotels",requireSignin, hotels);
 router.post("/hotel/image/:hotelId", image);
-router.post("/seller-hotels", requireSignin, sellerHotels);
+router.get("/seller-hotels", requireSignin, sellerHotels);
 router.delete("/delete-hotel/:hotelId", requireSignin, hotelOwner, remove);
 router.post("/hotel/:hotelId", read);
 

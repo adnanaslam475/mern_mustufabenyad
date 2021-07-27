@@ -40,6 +40,9 @@ const TopNav = () => {
       </Link>
 
       <div className="nav bg-light d-flex justify-content-between">
+        {tokenlocal && <Link className="nav-link" to="/my-hotels">
+          My Hotels
+        </Link>}
         {tokenlocal && <Link className="nav-link" to="/dashboard">
           Dashboard
         </Link>}

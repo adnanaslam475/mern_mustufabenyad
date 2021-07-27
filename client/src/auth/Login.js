@@ -36,6 +36,7 @@ const Login = ({ history }) => {
           return null;
         }
         else {
+          console.log('login res-->',res.data)
           history.push("/dashboard");
         }
       }

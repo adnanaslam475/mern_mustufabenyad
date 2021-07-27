@@ -1,7 +1,7 @@
 import User from "../models/user";
 import jwt from "jsonwebtoken";
 import Amadeus from 'amadeus';
-import md5 from 'md5';
+// import md5 from 'md5';
 
 
 // Mypasswordismypassword-1
@@ -28,8 +28,6 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-
-
   try {
     const { email,password } = req.body;
     let user = await User.findOne({ email });

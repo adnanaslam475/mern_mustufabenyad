@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import StripeCallback from "./stripe/StripeCallback"
 import NewHotel from './hotels/NewHotel';
 import Payment from './components/Payments';
+import Myhotels from './components/Myhotels';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/payment" component={Payment} />
+        <Route exact path="/my-hotels" component={Myhotels} />
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/dashboard/seller" component={DashboardSeller} />
         <Route exact path="/hotels/new" component={NewHotel} />
