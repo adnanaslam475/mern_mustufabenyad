@@ -62,7 +62,10 @@ const Myhotels = () => {
                                 <TableCell align="center">{moment(row.from).format('DD-MM-yyyy')}</TableCell>
                                 <TableCell align="center">{moment(row.to).format('DD-MM-yyyy')}</TableCell>
                                 <TableCell align="center">{row.price}</TableCell>
-                                <TableCell align="center"><img style={{ width: '100px', height: '100px' }} src={row.image} /></TableCell>
+                                <TableCell align="center"><img style={{
+                                    width: '100px',
+                                    height: '100px'
+                                }} src={row.image} /></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

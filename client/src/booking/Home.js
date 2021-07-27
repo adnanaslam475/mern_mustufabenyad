@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Button, DatePicker, Input } from 'antd';
 
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Paper, Typography,CircularProgress } from '@material-ui/core';
 import { useSelector, } from "react-redux";
 import axios from 'axios';
+import { Swiper, SwiperSlide } from "swiper/react";
 import moment from 'moment';
-
+import SwiperCore, { Pagination, Navigation, Thumbs } from "swiper/core";
+import "swiper/swiper.min.css";
+import "swiper/components/pagination/pagination.min.css";
+import "swiper/components/navigation/navigation.min.css";
+import "swiper/components/thumbs/thumbs.min.css";
+SwiperCore.use([Pagination, Navigation, Thumbs]);
 const Home = () => {
   // const state = useSelector((state) => ({ ...state }));
   const [input, setinput] = useState({
@@ -13,13 +19,13 @@ const Home = () => {
     city: '', checkIn: '', checkOut: '',
     guests: ''
   });
+  const [loading, setloading] = useState(false);
 
   const [city, setcity] = useState('')
   const [hotels, sethotels] = useState([])
   const [cityId, setcityId] = useState('')
-  const [msg, setmsg] = useState('')
-
-
+  const [msg, setmsg] = useState('');
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
@@ -45,6 +51,7 @@ const Home = () => {
         .then(res => {
           setcity(res.data.results.locations[0].name)
           setcityId(res.data.results.locations[0].id)
+          setloading(true)
         }).catch(err => {
           setmsg('cannot get locations , network error')
         })
@@ -55,12 +62,13 @@ const Home = () => {
 
   useEffect(() => {
     if (cityId.trim().length) {
-      console.log('yeh---->', input.latitude)
       axios.get(`https://engine.hotellook.com/api/v2/static/hotels.json?locationId=${cityId}&token=957018d5a69e4436c45764bad40fd29c`)
         .then(res => {
-          sethotels(res.data.hotels)
+          sethotels(res.data.hotels);
+          setloading(false)
         }).catch(err => {
-          console.log(err)
+          console.log(err);
+          setmsg('network Error')
         })
     }
   }, [cityId])
@@ -90,35 +98,66 @@ const Home = () => {
         placeholder='enter guest'
       />
       <button className="btn btn-outline-primary m-2">Search</button>
-      <Grid container >{hotels.map((v, i) => {
-        return (<Grid item style={{
-          padding: '2% 0 2% 0',
-          marginBottom: '20px',
-        }}
-          md={4} xs={12} sm={6} xl={4} lg={4} key={i}>
-          <img src={v.photos[0]?.url || 'https://i.stack.imgur.com/y9DpT.jpg'}
+      <Grid container justify='space-between' >
+        {loading ? <CircularProgress /> : hotels.map((v, i) => {
+          return (<Grid item component={Paper} style={{
+            padding: '2% 0 2% 0',
+            marginBottom: '20px',
+          }}
+            md={4} xs={12} sm={6} xl={4} lg={4} key={i}>
+            {v.photos === null ? < img src={'https://i.stack.imgur.com/y9DpT.jpg'}
+              style={{
+                minWidth: "95%",
+                maxWidth: "95%",
+                maxHeight: "70%",
+                minHeight: "70%",
+                marginBottom: '10px'
+              }}
+              alt='i' /> :
+              < Swiper
+                onSwiper={setThumbsSwiper}
+                spaceBetween={10}
+                slidesPerView="auto"
+                freeMode={true}
+                slideToClickedSlide
+                style={{ margin: '5px' }}
+                touchRatio={3}
+                mousewheel
+                watchSlidesVisibility={true}
+                watchSlidesProgress={true}
+                className="mySwiper"
+                keyboard={true}
+              >
+                {v.photos.map((val, idx) => {
+                  return (<SwiperSlide key={idx} style={{ maxHeight: '20vh' }}>
+                    <img src={val.url} alt=""
+                      style={{ maxHeight: '50vh' }} />
+                  </SwiperSlide>)
+                })}
+              </Swiper>}
+            <Typography>Name : {v.name.en}</Typography>
+            <Typography>check in time : {v.checkIn || 'not available'}</Typography>
+            <Typography>check out time : {v.checkOut || 'not available'}</Typography>
+            <Button style={{
+              backgroundColor: 'blue',
+              color: 'white',
+              borderRadius: '5px',
+              width: '50%'
+            }} color='blue'
+              onClick={() => ''} >Book</Button>
+          </Grid>)
+        })}</Grid>
+    </div >
+  );
+};
+
+export default Home;
+{/* <img src={v.photos[0]?.url || 'https://i.stack.imgur.com/y9DpT.jpg'}
             style={{
               minWidth: "95%",
               maxWidth: "95%",
               maxHeight: "70%",
               minHeight: "70%",
-              marginBottom:'10px'
+              marginBottom: '10px'
             }}
-            alt='i' />
-          <Typography>Name : {v.name.en}</Typography>
-          <Typography>check in time : {v.checkIn || 'not available'}</Typography>
-          <Typography>check out time : {v.checkOut || 'not available'}</Typography>
-          <Button  style={{
-            backgroundColor: 'blue',
-            color: 'white',
-            borderRadius: '5px',
-            width:'50%'
-          }} color='blue'
-            onClick={() => ''} >Book</Button>
-        </Grid>)
-      })}</Grid>
-    </div>
-  );
-};
-
-export default Home;
+            alt='i' /> */}

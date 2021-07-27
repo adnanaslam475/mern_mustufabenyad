@@ -1,3 +1,15 @@
 .Overlay-BadgeImage{
     display: none;
 }
+.mySwiper {
+    min-width: 100px;
+    min-height: 120px;
+    margin-bottom: 50px;
+  }
+  .mySwiper .swiper-slide {
+    min-width: 100px;
+  }
+.mySwiper .swiper-slide-thumb-active {
+    max-width: 100px;
+    min-height: 90px;
+  }
