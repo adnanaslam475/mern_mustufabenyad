@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, DatePicker, Input } from 'antd';
 
-import { Grid, Paper, Typography,CircularProgress } from '@material-ui/core';
+import { Grid, Paper, Typography, CircularProgress } from '@material-ui/core';
 import { useSelector, } from "react-redux";
 import axios from 'axios';
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -17,15 +17,15 @@ const Home = () => {
   const [input, setinput] = useState({
     latitude: '', longitude: "",
     city: '', checkIn: '', checkOut: '',
-    guests: ''
+    guests: '',
+    children: '',
   });
+  const [ThumbsSwiper, setThumbsSwiper] = useState(false)
   const [loading, setloading] = useState(false);
-
   const [city, setcity] = useState('')
   const [hotels, sethotels] = useState([])
   const [cityId, setcityId] = useState('')
   const [msg, setmsg] = useState('');
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
@@ -75,6 +75,17 @@ const Home = () => {
 
 
 
+  const send = e => {
+    e.preventDefault();
+    axios.get(`http://engine.hotellook.com/api/v2/search/start.json?iata=HKT&checkIn=${moment(input.checkIn).format('DD-MM-yyyy')}&checkOut=${moment(input.checkOut).format('DD-MM-yyyy')}&adultsCount=${input.guests}&customerIP=100.168.1.106&childrenCount=${input.children}&childAge1=8&lang=ru&currency=USD&waitForResult=0&marker=326030&signature=05cd11c5928cdc21581b38abf53c7783`)
+      .then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err);
+        setmsg('network Error')
+      })
+  }
+
   return (
     <div className="container-fluid h1 p-5 text-center">
       <h2>{city}</h2>
@@ -99,7 +110,13 @@ const Home = () => {
       />
       <button className="btn btn-outline-primary m-2">Search</button>
       <Grid container justify='space-between' >
-        {loading ? <CircularProgress /> : hotels.map((v, i) => {
+        {loading ? <CircularProgress style={{
+          display: 'flex',
+          alignSelf: 'center',
+          justifyContent:'center',
+          margin:'0 40% 0 40%'
+
+        }} /> : hotels.map((v, i) => {
           return (<Grid item component={Paper} style={{
             padding: '2% 0 2% 0',
             marginBottom: '20px',
@@ -114,7 +131,7 @@ const Home = () => {
                 marginBottom: '10px'
               }}
               alt='i' /> :
-              < Swiper
+              <Swiper
                 onSwiper={setThumbsSwiper}
                 spaceBetween={10}
                 slidesPerView="auto"
@@ -152,12 +169,3 @@ const Home = () => {
 };
 
 export default Home;
-{/* <img src={v.photos[0]?.url || 'https://i.stack.imgur.com/y9DpT.jpg'}
-            style={{
-              minWidth: "95%",
-              maxWidth: "95%",
-              maxHeight: "70%",
-              minHeight: "70%",
-              marginBottom: '10px'
-            }}
-            alt='i' /> */}
