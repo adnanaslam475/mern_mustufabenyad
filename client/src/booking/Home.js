@@ -115,7 +115,6 @@ const Home = () => {
           alignSelf: 'center',
           justifyContent:'center',
           margin:'0 40% 0 40%'
-
         }} /> : hotels.map((v, i) => {
           return (<Grid item component={Paper} style={{
             padding: '2% 0 2% 0',
