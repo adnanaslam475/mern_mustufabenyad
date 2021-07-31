@@ -23,7 +23,7 @@ const Myhotels = () => {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/api/seller-hotels`, {
+        axios.get(`/api/seller-hotels`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${t.token}`

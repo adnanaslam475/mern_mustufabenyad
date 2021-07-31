@@ -37,7 +37,7 @@ const Home = () => {
 
 
   useEffect(() => {
-    clear == false && axios.get(`http://localhost:8000/api/hotels`, {
+    clear == false && axios.get(`/api/hotels`, {
       headers: {
         'Content-Type': 'application/json',
         // 'Authorization': `Bearer ${t.token}`
@@ -61,7 +61,7 @@ const Home = () => {
 
 
   const gethotels = () => {
-    axios.get(`http://localhost:8000/api/hotels?location=${location}&checkIn=${input.checkIn}&checkOut=${input.checkOut}`, {
+    axios.get(`/api/hotels?location=${location}&checkIn=${input.checkIn}&checkOut=${input.checkOut}`, {
       headers: {
         'Content-Type': 'application/json',
       }
