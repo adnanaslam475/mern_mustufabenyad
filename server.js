@@ -1,5 +1,4 @@
 import express from "express";
-// import { readdirSync } from "fs";
 import cors from "cors";
 import mongoose from "mongoose";
 
@@ -16,7 +15,7 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 
-mongoose.connect(process.env.DATABASELocal,
+mongoose.connect(process.env.DATABASE,
   {
     useNewUrlParser: true,
     useFindAndModify: false,

@@ -68,6 +68,7 @@ const Home = () => {
       }).then(res => {
         res.data.length == 0 && setmsg('no records found')
         sethotels(res.data)
+        console.log('filtr-->', res.data)
       }).catch(err => {
         console.log('err19==>', err);
         setErr('network Error');
@@ -79,7 +80,7 @@ const Home = () => {
     }
   }
 
-  console.log(input.location)
+  // console.log(input.location)
   return (
     <div className="container-fluid h1 p-5 text-center">
       <InstantSearch indexName="city" ref={ref} onSearchStateChange={e => {

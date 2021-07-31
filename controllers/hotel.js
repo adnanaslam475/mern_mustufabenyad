@@ -3,17 +3,17 @@ import fs from "fs";
 
 
 export const create = async (req, res) => {
+
   try {
     let fields = req.fields;
     let hotel = new Hotel(fields);
     hotel.postedBy = req.user._id;
     await hotel.save();
-    res.json('saved sucessully');
-    console.log('createhotel-->', hotel)
+    res.json('saved sucessfully');
   } catch (err) {
     console.log('err20', err);
     res.status(400).json({
-      err: err.message,
+      err: err.message
     });
   }
 };
