@@ -27,19 +27,18 @@ const NewHotel = () => {
   );
 
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    const { title, content, price, from, to, bed } = values;
-    const image = imageUrl
+    const { title, content, price, checkIn, checkOut, bed } = values;
     try {
       let hotelData = new FormData();
       hotelData.append("title", title);
       hotelData.append("content", content);
       hotelData.append("location", location);
       hotelData.append("price", price);
-      imageUrl && hotelData.append("image", image);
-      hotelData.append("checkIn", moment(from).format('DD-MM-yyyy'));
-      hotelData.append("checkOut", moment(to).format('DD-MM-yyyy'));
+      imageUrl && hotelData.append("image", imageUrl);
+      hotelData.append("checkIn", moment(checkIn).format('DD-MM-yyyy'));
+      hotelData.append("checkOut", moment(checkOut).format('DD-MM-yyyy'));
       hotelData.append("bed", bed);
       const res = await axios.post(`/api/create-hotel`, hotelData, {
         headers: {
@@ -80,7 +79,7 @@ const NewHotel = () => {
     });
   }
 
-  
+
   return (
     <>
       <div className="container-fluid bg-secondary p-5 text-center">

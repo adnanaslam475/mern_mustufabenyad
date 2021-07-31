@@ -21,18 +21,18 @@ export const create = async (req, res) => {
 export const hotels = async (req, res) => {
   try {
     const { checkIn, checkOut, location } = req.query;
-
     let regex = new RegExp(location, 'i');
-    const ress =await Hotel.find({
-      $or: [
+    let regexIn = new RegExp(checkIn, 'i');
+    let regexOut = new RegExp(checkOut, 'i');
+    const ress = await Hotel.find({
+      $and: [
         { 'location': regex },
-        { 'from': regex },
-        { 'to': regex }
+        { 'checkIn': regexIn },
+        { 'checkOut': regexOut },
       ]
     }).exec(function (err, persons) {
-      // console.log('whitregexz', persons);
+      console.log('whitregexz', persons);
       res.json(persons);
-
     });
 
     // await Hotel.find({ $text: { $search: location } })
@@ -45,9 +45,8 @@ export const hotels = async (req, res) => {
     //   .populate("postedBy", "_id name")
     //   .exec();
 
-
     console.log(ress)
-    
+
   } catch (error) {
     console.log('err38', error)
   }

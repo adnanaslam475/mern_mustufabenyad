@@ -4,6 +4,7 @@ import Places from '../components/forms/Widget';
 import algoliasearch from 'algoliasearch/lite';
 import { Grid, Paper, Typography, CircularProgress } from '@material-ui/core';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import { InstantSearch } from 'react-instantsearch-dom';
 import moment from 'moment';
 // import SwiperCore, { Pagination, Navigation, Thumbs } from "swiper/core";
@@ -18,14 +19,14 @@ import moment from 'moment';
 
 const Home = () => {
   const ref = useRef();
+  const history = useHistory();
   const searchClient = algoliasearch(
     'latency',
     '6be0576ff61c053d5f9a3225e2a90f76'
   );
   const token = localStorage.getItem('auth');
   const [input, setinput] = useState({
-    location: '', checkIn: '', checkOut: '',
-    guests: '',
+    checkIn: '', checkOut: '',
   });
   const [loading, setloading] = useState(false);
   const [hotels, sethotels] = useState([])
@@ -54,28 +55,31 @@ const Home = () => {
   const clearAll = () => {
     setinput({ ...input, checkIn: '', checkOut: '' })
     setLocation('')
-    setclear(false)
+    setclear(false);
+    setmsg('')
   }
-
-  console.log(ref)
-
 
   const gethotels = () => {
-    axios.get(`/api/hotels?location=${location}&checkIn=${input.checkIn}&checkOut=${input.checkOut}`, {
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    }).then(res => {
-      res.data.length == 0 && setmsg('no records found')
-      sethotels(res.data)
-      console.log('query res==>', res.data);
-    }).catch(err => {
-      console.log('err19==>', err);
-      setErr('network Error');
-    })
-    setclear(true)
+    if (location && input.checkIn && input.checkOut) {
+      axios.get(`/api/hotels?location=${location}&checkIn=${moment(input.checkIn).format('DD-MM-yyyy')}&checkOut=${moment(input.checkOut).format('DD-MM-yyyy')}`, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(res => {
+        res.data.length == 0 && setmsg('no records found')
+        sethotels(res.data)
+      }).catch(err => {
+        console.log('err19==>', err);
+        setErr('network Error');
+      })
+      setclear(true)
+    }
+    else {
+      setmsg('please enter all fields')
+    }
   }
 
+  console.log(input.location)
   return (
     <div className="container-fluid h1 p-5 text-center">
       <InstantSearch indexName="city" ref={ref} onSearchStateChange={e => {
@@ -95,18 +99,23 @@ const Home = () => {
       <DatePicker
         placeholder="check in"
         className="form-control m-2"
-        onChange={(date, dateString) => setinput({ ...input, checkIn: dateString })}
+        // value={input.checkIn}
+        name='checkIn'
+        onChange={(date, dateString) => { setinput({ ...input, checkIn: dateString }); setmsg('') }}
         disabledDate={(current) =>
           current && current.valueOf() < moment().subtract(1, "days")
         }
       /><DatePicker
         placeholder="check out "
         className="form-control m-2"
+        // value={input?.checkOut}
+        name='checkOut'
         onChange={(date, dateString) => setinput({ ...input, checkOut: dateString })}
         disabledDate={(current) =>
           current && current.valueOf() < moment().subtract(1, "days")
         }
       />
+      <p style={{ color: 'red', fontSize: '1rem' }}>{msg}</p>
       <button onClick={gethotels}
         className="btn btn-outline-primary m-2">Search</button>
       {clear == true && <button onClick={clearAll}
@@ -126,21 +135,23 @@ const Home = () => {
             <img src={v.image}
               className='hotel_img'
               alt='i' />
-            <Typography>Name : {v.name}</Typography>
-            <Typography>check in time : {v.from}</Typography>
-            <Typography>check out time : {v.to}</Typography>
+            <Typography>Name : {v.title}</Typography>
+            <Typography>check in time : {moment(v.checkIn).format('DD-MM-yyyy')}</Typography>
+            <Typography>check out time : {moment(v.checkOut).format('DD-MM-yyyy')}</Typography>
             <Button style={{
               backgroundColor: 'blue',
               color: 'white',
               borderRadius: '5px',
-              width: '50%'
-            }} color='blue'
-              onClick={() => ''} >Book</Button>
+              width: '50%',
+              color: 'white'
+            }}
+              onClick={() => history.push('/payment')} >Book</Button>
           </Grid>)
         })}</Grid>
     </div >
   );
 }
+
 export default Home;
 
 {/* <Swiper

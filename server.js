@@ -16,7 +16,7 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 
-mongoose.connect(process.env.DATABASE,
+mongoose.connect(process.env.DATABASELocal,
   {
     useNewUrlParser: true,
     useFindAndModify: false,
