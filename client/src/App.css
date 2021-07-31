@@ -13,3 +13,10 @@
     max-width: 100px;
     min-height: 90px;
   }
+  .hotel_img{
+    min-width: 95% !important;
+    max-width: 95% !important;
+    max-height: 70%;
+    min-height: 70%;
+    margin-bottom: 10px;
+  }

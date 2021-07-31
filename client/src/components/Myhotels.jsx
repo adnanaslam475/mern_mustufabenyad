@@ -17,9 +17,9 @@ const Myhotels = () => {
     const classes = useStyles();
 
     const token = localStorage.getItem('auth');
-    const [err, setErr] = useState('')
     const t = JSON.parse(token);
-    const [myhotels, setMyHotels] = useState([])
+    const [err, setErr] = useState('')
+    const [myhotels, setMyHotels] = useState([]);
 
 
     useEffect(() => {

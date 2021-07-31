@@ -1,94 +1,97 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button, DatePicker, Input } from 'antd';
-
+import Places from '../components/forms/Widget';
+import algoliasearch from 'algoliasearch/lite';
 import { Grid, Paper, Typography, CircularProgress } from '@material-ui/core';
-import { useSelector, } from "react-redux";
 import axios from 'axios';
-import { Swiper, SwiperSlide } from "swiper/react";
+import { InstantSearch } from 'react-instantsearch-dom';
 import moment from 'moment';
-import SwiperCore, { Pagination, Navigation, Thumbs } from "swiper/core";
-import "swiper/swiper.min.css";
-import "swiper/components/pagination/pagination.min.css";
-import "swiper/components/navigation/navigation.min.css";
-import "swiper/components/thumbs/thumbs.min.css";
-SwiperCore.use([Pagination, Navigation, Thumbs]);
+// import SwiperCore, { Pagination, Navigation, Thumbs } from "swiper/core";
+// import "swiper/swiper.min.css";
+// import { Swiper, SwiperSlide } from "swiper/react";
+// import "swiper/components/pagination/pagination.min.css";
+// import "swiper/components/navigation/navigation.min.css";
+// import "swiper/components/thumbs/thumbs.min.css";
+// SwiperCore.use([Pagination, Navigation, Thumbs]);
+
+
+
 const Home = () => {
-  // const state = useSelector((state) => ({ ...state }));
+  const ref = useRef();
+  const searchClient = algoliasearch(
+    'latency',
+    '6be0576ff61c053d5f9a3225e2a90f76'
+  );
+  const token = localStorage.getItem('auth');
   const [input, setinput] = useState({
-    latitude: '', longitude: "",
-    city: '', checkIn: '', checkOut: '',
+    location: '', checkIn: '', checkOut: '',
     guests: '',
-    children: '',
   });
-  const [ThumbsSwiper, setThumbsSwiper] = useState(false)
   const [loading, setloading] = useState(false);
-  const [city, setcity] = useState('')
   const [hotels, sethotels] = useState([])
-  const [cityId, setcityId] = useState('')
+  const t = JSON.parse(token);
   const [msg, setmsg] = useState('');
+  const [clear, setclear] = useState(false)
+  const [err, setErr] = useState('')
+  const [location, setLocation] = useState('')
+
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
-      setinput({
-        ...input,
-        latitude, longitude
-      })
+    clear == false && axios.get(`http://localhost:8000/api/hotels`, {
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Authorization': `Bearer ${t.token}`
+      }
+    }).then(res => {
+      sethotels(res.data);
+      setloading(false)
+    }).catch(err => {
+      console.log('err19==>');
+      setErr('network Error')
     })
-  }, [])
+  }, [clear])
 
-
-  const handlechange = e => {
-    setmsg('')
-    setinput({
-      ...input,
-      [e.target.name]: e.target.value
-    })
+  const clearAll = () => {
+    setinput({ ...input, checkIn: '', checkOut: '' })
+    setLocation('')
+    setclear(false)
   }
 
-  useEffect(() => {
-    if (input.latitude) {
-      axios.get(`https://engine.hotellook.com/api/v2/lookup.json?query=${input.latitude},${input.longitude}&lang=en&lookFor=city&limit=1&token=957018d5a69e4436c45764bad40fd29c`)
-        .then(res => {
-          setcity(res.data.results.locations[0].name)
-          setcityId(res.data.results.locations[0].id)
-          setloading(true)
-        }).catch(err => {
-          setmsg('cannot get locations , network error')
-        })
-    }
-
-  }, [input.latitude])
+  console.log(ref)
 
 
-  useEffect(() => {
-    if (cityId.trim().length) {
-      axios.get(`https://engine.hotellook.com/api/v2/static/hotels.json?locationId=${cityId}&token=957018d5a69e4436c45764bad40fd29c`)
-        .then(res => {
-          sethotels(res.data.hotels);
-          setloading(false)
-        }).catch(err => {
-          console.log(err);
-          setmsg('network Error')
-        })
-    }
-  }, [cityId])
-
-
-
-  const send = e => {
-    e.preventDefault();
-    axios.get(`http://engine.hotellook.com/api/v2/search/start.json?iata=HKT&checkIn=${moment(input.checkIn).format('DD-MM-yyyy')}&checkOut=${moment(input.checkOut).format('DD-MM-yyyy')}&adultsCount=${input.guests}&customerIP=100.168.1.106&childrenCount=${input.children}&childAge1=8&lang=ru&currency=USD&waitForResult=0&marker=326030&signature=05cd11c5928cdc21581b38abf53c7783`)
-      .then(res => {
-        console.log(res)
-      }).catch(err => {
-        console.log(err);
-        setmsg('network Error')
-      })
+  const gethotels = () => {
+    axios.get(`http://localhost:8000/api/hotels?location=${location}&checkIn=${input.checkIn}&checkOut=${input.checkOut}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }).then(res => {
+      res.data.length == 0 && setmsg('no records found')
+      sethotels(res.data)
+      console.log('query res==>', res.data);
+    }).catch(err => {
+      console.log('err19==>', err);
+      setErr('network Error');
+    })
+    setclear(true)
   }
 
   return (
     <div className="container-fluid h1 p-5 text-center">
-      <h2>{city}</h2>
+      <InstantSearch indexName="city" ref={ref} onSearchStateChange={e => {
+        setLocation(e.aroundLatLng);
+      }} searchClient={searchClient}>
+        <div className="search-panel">
+          <div className="search-panel__results">
+            <Places
+              defaultRefinement={{
+                lat: 37.7793,
+                lng: -122.419,
+              }}
+            />
+          </div>
+        </div>
+      </InstantSearch>
       <DatePicker
         placeholder="check in"
         className="form-control m-2"
@@ -104,33 +107,43 @@ const Home = () => {
           current && current.valueOf() < moment().subtract(1, "days")
         }
       />
-      <Input type='number' onChange={handlechange} required
-        value={input.guests}
-        placeholder='enter guest'
-      />
-      <button className="btn btn-outline-primary m-2">Search</button>
+      <button onClick={gethotels}
+        className="btn btn-outline-primary m-2">Search</button>
+      {clear == true && <button onClick={clearAll}
+        className="btn btn-outline-primary m-2">clear</button>}
       <Grid container justify='space-between' >
         {loading ? <CircularProgress style={{
           display: 'flex',
           alignSelf: 'center',
-          justifyContent:'center',
-          margin:'0 40% 0 40%'
-        }} /> : hotels.map((v, i) => {
+          justifyContent: 'center',
+          margin: '0 40% 0 40%'
+        }} /> : hotels?.map((v, i) => {
           return (<Grid item component={Paper} style={{
             padding: '2% 0 2% 0',
             marginBottom: '20px',
           }}
             md={4} xs={12} sm={6} xl={4} lg={4} key={i}>
-            {v.photos === null ? < img src={'https://i.stack.imgur.com/y9DpT.jpg'}
-              style={{
-                minWidth: "95%",
-                maxWidth: "95%",
-                maxHeight: "70%",
-                minHeight: "70%",
-                marginBottom: '10px'
-              }}
-              alt='i' /> :
-              <Swiper
+            <img src={v.image}
+              className='hotel_img'
+              alt='i' />
+            <Typography>Name : {v.name}</Typography>
+            <Typography>check in time : {v.from}</Typography>
+            <Typography>check out time : {v.to}</Typography>
+            <Button style={{
+              backgroundColor: 'blue',
+              color: 'white',
+              borderRadius: '5px',
+              width: '50%'
+            }} color='blue'
+              onClick={() => ''} >Book</Button>
+          </Grid>)
+        })}</Grid>
+    </div >
+  );
+}
+export default Home;
+
+{/* <Swiper
                 onSwiper={setThumbsSwiper}
                 spaceBetween={10}
                 slidesPerView="auto"
@@ -150,21 +163,4 @@ const Home = () => {
                       style={{ maxHeight: '50vh' }} />
                   </SwiperSlide>)
                 })}
-              </Swiper>}
-            <Typography>Name : {v.name.en}</Typography>
-            <Typography>check in time : {v.checkIn || 'not available'}</Typography>
-            <Typography>check out time : {v.checkOut || 'not available'}</Typography>
-            <Button style={{
-              backgroundColor: 'blue',
-              color: 'white',
-              borderRadius: '5px',
-              width: '50%'
-            }} color='blue'
-              onClick={() => ''} >Book</Button>
-          </Grid>)
-        })}</Grid>
-    </div >
-  );
-};
-
-export default Home;
+              </Swiper> */}

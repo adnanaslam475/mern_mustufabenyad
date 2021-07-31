@@ -19,7 +19,7 @@ const hotelSchema = new Schema(
     },
     price: {
       type: Number,
-      required: "Price is required",
+      // required: "Price is required",
       trim: true,
     },
     postedBy: {
@@ -29,11 +29,11 @@ const hotelSchema = new Schema(
     image: {
       type: String,
     },
-    from: {
-      type: Date
+    checkIn: {
+      type: String
     },
-    to: {
-      type: Date,
+    checkOut: {
+      type: String,
     },
     bed: {
       type: Number,
@@ -41,5 +41,6 @@ const hotelSchema = new Schema(
   },
   { timestamps: true }
 );
+// hotelSchema.index({ '$**': 'text' });
 
 export default mongoose.model("Hotel", hotelSchema);

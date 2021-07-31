@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux'
 
 const PrivateRoute = ({ ...rest }) => {
     const { auth } = useSelector((state) => ({ ...state }));
-
     return auth && auth ? <Route {...rest} /> : <Redirect to="/login" />;
 };
 

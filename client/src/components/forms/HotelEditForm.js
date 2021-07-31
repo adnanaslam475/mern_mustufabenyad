@@ -10,16 +10,9 @@ const config = {
   appId: process.env.REACT_APP_ALGOLIA_APP_ID,
   apiKey: process.env.REACT_APP_ALGOLIA_API_KEY,
   language: "en",
-  // countries: ["au"],
 };
 
-const HotelEditForm = ({
-  values,
-  setValues,
-  handleChange,
-  handleImageChange,
-  handleSubmit,
-}) => {
+const HotelEditForm = ({ values, setValues, handleChange, handleImageChange, handleSubmit, }) => {
   const { title, content, location, price, bed, from, to } = values;
 
   return (

@@ -17,7 +17,6 @@ const ViewHotel = ({ match, history }) => {
 
   const loadSellerHotel = async () => {
     let res = await read(match.params.hotelId);
-    // console.log(res);
     setHotel(res.data);
     setImage(`/api/hotel/image/${res.data._id}`);
   };
@@ -41,15 +40,14 @@ const ViewHotel = ({ match, history }) => {
             <br />
             <img src={image} alt={hotel.title} className="img img-fluid m-2" />
           </div>
-
           <div className="col-md-6">
             <br />
             <b>{hotel.content}</b>
             <p className="alert alert-info mt-3">${hotel.price}</p>
             <p className="card-text">
               <span className="float-right text-primary">
-                for {diffDays(hotel.from, hotel.to)}{" "}
-                {diffDays(hotel.from, hotel.to) <= 1 ? " day" : " days"}
+                for {diffDays(hotel.checkIn, hotel.checkOut)}{" "}
+                {diffDays(hotel.checkIn, hotel.checkOut) <= 1 ? " day" : " days"}
               </span>
             </p>
             <p>
@@ -64,8 +62,7 @@ const ViewHotel = ({ match, history }) => {
             <br />
             <button
               onClick={handleClick}
-              className="btn btn-block btn-lg btn-primary mt-3"
-            >
+              className="btn btn-block btn-lg btn-primary mt-3">
               {auth && auth.token ? "Book Now" : "Login to Book"}
             </button>
           </div>

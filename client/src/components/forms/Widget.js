@@ -5,7 +5,7 @@ import connect from './Connector';
 
 class Places extends Component {
     static propTypes = {
-        refine: PropTypes.func.isRequired, 
+        refine: PropTypes.func.isRequired,
         defaultRefinement: PropTypes.object.isRequired,
     };
 
@@ -13,15 +13,13 @@ class Places extends Component {
 
     componentDidMount() {
         const { refine, defaultRefinement } = this.props;
-
         const autocomplete = places({
             container: this.element,
-            type:'city'
+            type: 'city'
         });
-
-        autocomplete.on('change', event => {
-            refine(event.suggestion.latlng);
-            console.log('object',event.suggestion.latlng)
+        autocomplete.on('change', e => {
+            refine(e.suggestion.name);
+            // console.log('e.sugestion->', e.suggestion)
         });
 
         autocomplete.on('clear', () => {
@@ -30,17 +28,18 @@ class Places extends Component {
     }
 
     render() {
+        const { refine, defaultRefinement } = this.props;
         return (
             <div style={{ marginBottom: 20 }}>
                 <input
                     ref={this.createRef}
                     type="search"
+                    // value={}
                     id="address-input"
-                    placeholder="Where are we going?"
+                    placeholder="Enter location..."
                 />
             </div>
         );
     }
 }
-
 export default connect(Places);

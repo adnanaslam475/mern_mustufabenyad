@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { createHotel } from "../actions/hotel";
+// import { createHotel } from "../actions/hotel";
 import HotelCreateForm from "../components/forms/HotelCreateForm";
 import { useHistory } from "react-router-dom";
-// import cities from './';
+import moment from 'moment';
+import axios from 'axios';
+
 
 const NewHotel = () => {
   const history = useHistory()
@@ -14,8 +16,8 @@ const NewHotel = () => {
     content: "",
     image: "",
     price: "",
-    from: "",
-    to: "",
+    checkIn: "",
+    checkOut: "",
     bed: "",
   });
   const [imageUrl, setImageUrl] = useState('')
@@ -36,11 +38,16 @@ const NewHotel = () => {
       hotelData.append("location", location);
       hotelData.append("price", price);
       imageUrl && hotelData.append("image", image);
-      hotelData.append("from", from);
-      hotelData.append("to", to);
+      hotelData.append("checkIn", moment(from).format('DD-MM-yyyy'));
+      hotelData.append("checkOut", moment(to).format('DD-MM-yyyy'));
       hotelData.append("bed", bed);
-      createHotel(token.token, hotelData);
-      history.push('/dashboard')
+      const res = await axios.post(`/api/create-hotel`, hotelData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token.token}`
+        }
+      })
+      console.log(res)
     } catch (err) {
       toast.error(err.response.data);
     }
@@ -71,8 +78,9 @@ const NewHotel = () => {
       ...values,
       [e.target.name]: e.target.value
     });
-  };
+  }
 
+  
   return (
     <>
       <div className="container-fluid bg-secondary p-5 text-center">

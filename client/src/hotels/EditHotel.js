@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { DatePicker, Select } from "antd";
+import {  Select } from "antd";
 import { read, updateHotel } from "../actions/hotel";
 // import { useSelector } from "react-redux";
 import HotelEditForm from "../components/forms/HotelEditForm";
 
-const { Option } = Select;
 
 const EditHotel = ({ match }) => {
-  // redux
 
   // state
   const [values, setValues] = useState({
