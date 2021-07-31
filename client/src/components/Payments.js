@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import StripeCheckout from 'react-stripe-checkout'
-
+import {useParams} from 'react-router-dom';
 
 
 function Payment() {
-
+const location=useParams();
     const [product, setProduct] = useState({
         name: '',
         price: '',
         productby: ''
     })
 
-
+console.log( location.state)
     const handlechange = e => {
         setProduct({
             ...product,

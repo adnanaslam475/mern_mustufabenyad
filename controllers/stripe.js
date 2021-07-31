@@ -35,13 +35,12 @@ export const payment = async (req, res) => {
           }
         }, { idempotencyKey })
       })
-      .then(result => res.status(200).json(result))
+      .then(result => res.json(result))
       .catch(err => { console.log(err) })
   } catch (err) {
     console.log("STRIPE PAYOUT SETTING ERR ", err);
   }
-};
-
+}
 
 
 export const createConnectAccount = async (req, res) => {

@@ -31,7 +31,6 @@ export const hotels = async (req, res) => {
         { 'checkOut': regexOut },
       ]
     }).exec(function (err, persons) {
-      console.log('whitregexz', persons);
       res.json(persons);
     });
 

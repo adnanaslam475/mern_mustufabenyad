@@ -128,6 +128,7 @@ const Home = () => {
           justifyContent: 'center',
           margin: '0 40% 0 40%'
         }} /> : hotels?.map((v, i) => {
+          console.log(v)
           return (<Grid item component={Paper} style={{
             padding: '2% 0 2% 0',
             marginBottom: '20px',
@@ -137,8 +138,8 @@ const Home = () => {
               className='hotel_img'
               alt='i' />
             <Typography>Name : {v.title}</Typography>
-            <Typography>check in time : {moment(v.checkIn).format('DD-MM-yyyy')}</Typography>
-            <Typography>check out time : {moment(v.checkOut).format('DD-MM-yyyy')}</Typography>
+            <Typography>check in time : {v.checkIn}</Typography>
+            <Typography>check out time : {v.checkOut}</Typography>
             <Button style={{
               backgroundColor: 'blue',
               color: 'white',
@@ -146,7 +147,8 @@ const Home = () => {
               width: '50%',
               color: 'white'
             }}
-              onClick={() => history.push('/payment')} >Book</Button>
+              onClick={() => history.push('/payment',
+              {data:v})} >Book</Button>
           </Grid>)
         })}</Grid>
     </div >
