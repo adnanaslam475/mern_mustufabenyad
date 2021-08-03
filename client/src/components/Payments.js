@@ -1,17 +1,16 @@
 import React, { useState } from 'react'
 import StripeCheckout from 'react-stripe-checkout'
-import {useParams} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
 function Payment() {
-const location=useParams();
+    const location = useLocation();
     const [product, setProduct] = useState({
         name: '',
         price: '',
         productby: ''
     })
 
-console.log( location.state)
     const handlechange = e => {
         setProduct({
             ...product,
@@ -41,6 +40,12 @@ console.log( location.state)
 
     return (
         <div className="mt-3 form-group mb-3">
+            <div style={{marginLeft:'2rem'}}> 
+            <h3>Book this hotel</h3>
+                <p>{location.state.data.title}</p>
+                <p>{location.state.data.checkIn}</p>
+                <p>{location.state.data.checkOut}</p>
+            </div>
             <input
                 type="text"
                 className="form-control"

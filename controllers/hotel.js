@@ -3,15 +3,16 @@ import fs from "fs";
 
 
 export const create = async (req, res) => {
-
   try {
     let fields = req.fields;
-    let hotel = new Hotel(fields);
+    let hotel = new Hotel({
+      ...fields,
+      images: req.fields.images.split(',')
+    });
     hotel.postedBy = req.user._id;
     await hotel.save();
     res.json('saved sucessfully');
   } catch (err) {
-    console.log('err20', err);
     res.status(400).json({
       err: err.message
     });
@@ -20,34 +21,26 @@ export const create = async (req, res) => {
 
 export const hotels = async (req, res) => {
   try {
-    const { checkIn, checkOut, location } = req.query;
+    const { checkIn, checkOut, location, number_of_guests } = req.query;
     let regex = new RegExp(location, 'i');
     let regexIn = new RegExp(checkIn, 'i');
     let regexOut = new RegExp(checkOut, 'i');
-    const ress = await Hotel.find({
+    let regexNoOfGuests = new RegExp(number_of_guests, 'i');
+    await Hotel.find({
       $and: [
         { 'location': regex },
         { 'checkIn': regexIn },
         { 'checkOut': regexOut },
+        { 'number_of_guests': regexNoOfGuests },
       ]
-    }).exec(function (err, persons) {
-      res.json(persons);
+    }).exec(function (err, hotel) {
+      res.json(hotel == undefined ? [] : hotel);
     });
 
-    // await Hotel.find({ $text: { $search: location } })
-    //   .select('-postedBy')
-    //   .exec(function (err, docs) {
-    //     console.log(err, '=====>', docs)
-    //   });
-    // let all = await Hotel.find({})
-    //   .limit(24).select('-postedBy')
-    //   .populate("postedBy", "_id name")
-    //   .exec();
-
-    console.log(ress)
 
   } catch (error) {
     console.log('err38', error)
+    throw new Error()
   }
 };
 
@@ -56,16 +49,15 @@ export const hotels = async (req, res) => {
 export const sellerHotels = async (req, res) => {
 
   try {
-    console.log('req.user-->', req.user._id)
     let all = await Hotel.find({ postedBy: req.user._id })
       .select("-image.data")
       .populate("postedBy", "_id name")
       .exec();
-    console.log('req.user.id', req.user._id)
-    console.log('allmyhotels--->', all);
+    // console.log('req.user.id', req.user._id)
+    // console.log('allmyhotels--->', all);
     res.json(all);
   } catch (error) {
-    console.log('error57', error)
+    // console.log('error57', error)
   }
 };
 
@@ -81,7 +73,6 @@ export const read = async (req, res) => {
   let hotel = await Hotel.findById(req.params.hotelId)
     .select("-image.data")
     .exec();
-  console.log("SINGLE HOTEL", hotel);
   res.json(hotel);
 };
 
@@ -106,7 +97,6 @@ export const update = async (req, res) => {
 
     res.json(updated);
   } catch (err) {
-    console.log(err);
     res.status(400).send("Hotel update failed. Try again.");
   }
 };

@@ -10,9 +10,8 @@ const stripe = Stripe(process.env.STRIPE_SECRET);
 export const payment = async (req, res) => {
   try {
     const { product, token } = req.body;
-    console.log("Product--->", product);
-    console.log("Price-->", product.price);
-
+    // console.log("Product--->", product);
+    // console.log("Price-->", product.price);
 
     const idempotencyKey = Math.random().toFixed(25).split('.')[1];
     console.log('idempotencyKey==>', idempotencyKey)

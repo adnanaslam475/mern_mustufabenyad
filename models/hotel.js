@@ -19,15 +19,17 @@ const hotelSchema = new Schema(
     },
     price: {
       type: Number,
-      // required: "Price is required",
       trim: true,
     },
     postedBy: {
       type: ObjectId,
       ref: "User",
     },
-    image: {
+    number_of_guests: {
       type: String,
+    },
+    images: {
+      type: Array,
     },
     checkIn: {
       type: String

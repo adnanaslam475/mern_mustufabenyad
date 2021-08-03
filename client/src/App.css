@@ -1,6 +1,6 @@
-.Overlay-BadgeImage{
+/* .Overlay-BadgeImage{
     display: none;
-}
+} */
 .mySwiper {
     min-width: 100px;
     min-height: 120px;
@@ -9,7 +9,12 @@
   .mySwiper .swiper-slide {
     min-width: 100px;
   }
+  .swiper-button-next, .swiper-button-prev{
+    color: gray !important;
+  }
 .mySwiper .swiper-slide-thumb-active {
+  color: black;
+  z-index: 100;
     max-width: 100px;
     min-height: 90px;
   }

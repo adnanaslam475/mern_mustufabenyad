@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import places from 'places.js';
+import {Input} from 'antd'
 import connect from './Connector';
 
 class Places extends Component {
@@ -30,11 +31,11 @@ class Places extends Component {
     render() {
         const { refine, defaultRefinement } = this.props;
         return (
-            <div style={{ marginBottom: 20 }}>
+            <div >
                 <input
                     ref={this.createRef}
                     type="search"
-                    // value={}
+                    // style={{width:'98%'}}
                     id="address-input"
                     placeholder="Enter location..."
                 />

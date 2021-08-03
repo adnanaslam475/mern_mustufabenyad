@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import algoliasearch from 'algoliasearch/lite';
 import { InstantSearch } from 'react-instantsearch-dom';
 import { DatePicker } from "antd";
@@ -8,6 +8,7 @@ import Places from '../forms/Widget';
 
 
 const { Option } = Select;
+
 const HotelCreateForm = ({
   values,
   setValues,
@@ -15,13 +16,13 @@ const HotelCreateForm = ({
   handleImageChange,
   setLocation,
   handleSubmit,
+  images
 }) => {
   const searchClient = algoliasearch(
     'latency',
     '6be0576ff61c053d5f9a3225e2a90f76'
   );
-  const ref = useRef(null);
-  const { title, content, price } = values;
+  const { title, content, price, number_of_guests } = values;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -31,11 +32,19 @@ const HotelCreateForm = ({
           <input
             type="file"
             name="image"
+            multiple
             onChange={handleImageChange}
             accept="image/*"
             hidden
           />
         </label>
+        <div style={{ display: 'flex', flexDirection: 'row' }} >
+          {images?.map((v, i) => <img style={{
+            width: '50px',
+            height: '50px',
+            margin: '1rem',
+          }} src={v} key={i} alt='v' />)}
+        </div>
         <input
           type="text"
           name="title"
@@ -51,7 +60,7 @@ const HotelCreateForm = ({
           className="form-control m-2"
           value={content}
         />
-        <InstantSearch indexName="airports" ref={ref}
+        <InstantSearch indexName="airports"
           onSearchStateChange={e => {
             setLocation(e.aroundLatLng);
           }}
@@ -74,6 +83,14 @@ const HotelCreateForm = ({
           placeholder="Price"
           className="form-control m-2"
           value={price}
+        />
+        <input
+          type="number"
+          name="number_of_guests"
+          onChange={handleChange}
+          placeholder="number of geusts"
+          className="form-control m-2"
+          value={number_of_guests}
         />
         <Select
           onChange={(value) => setValues({ ...values, bed: value })}
