@@ -85,7 +85,6 @@ const NewHotel = () => {
     });
   }
 
-  console.log('this-->', images)
   return (
     <>
       <div className="container-fluid bg-secondary p-5 text-center">

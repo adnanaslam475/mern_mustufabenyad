@@ -38,13 +38,16 @@ function Payment() {
     }
 
 
+    // console.log(location.state.data)
+
     return (
         <div className="mt-3 form-group mb-3">
             <div style={{marginLeft:'2rem'}}> 
             <h3>Book this hotel</h3>
-                <p>{location.state.data.title}</p>
-                <p>{location.state.data.checkIn}</p>
-                <p>{location.state.data.checkOut}</p>
+                <p>Name: {location.state.data?.title}</p>
+                <p>Check In date: {location.state.data?.checkIn}</p>
+                <p>Check Out Date: {location.state.data?.checkOut}</p>
+                <p>Number Of guests: {location.state.data?.number_of_guests}</p>
             </div>
             <input
                 type="text"
@@ -66,7 +69,6 @@ function Payment() {
                 value={product.price}
                 onChange={handlechange}
             />
-
             <StripeCheckout style={{ width: '40%', margin: '2%' }}
                 stripeKey="pk_live_51IimupDmVdXnLB9ljPw79i3pDMqV73G2WU8ldNqTbhZUy4AnuBPVUfccnonzgNdpRG2dLw5REcyZRqzeAapgC4Bx00yCaGkfX9"
                 token={makePayment}

@@ -48,10 +48,6 @@ const Dashboard = () => {
                             <button className="btn btn-primary mb-3">Add Listing</button>
                         </Link>
                     </div>
-                    {hotels?.map((v, i) => <div key={i}>
-                        <ul>
-
-                        </ul> </div>)}
                 </div>
             </div>
         </>
