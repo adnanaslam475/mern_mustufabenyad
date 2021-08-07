@@ -42,4 +42,5 @@ class Places extends Component {
         );
     }
 }
+
 export default connect(Places);
