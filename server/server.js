@@ -15,13 +15,12 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 
-mongoose.connect(process.env.DATABASELocal,
-  {
-    useNewUrlParser: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
+mongoose.connect(process.env.DATABASE, {
+  useNewUrlParser: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+})
   .then(() => console.log("DB Connected"))
   .catch((err) => console.log("DB Connection Error: ", err));
 
@@ -58,3 +57,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 const port = process.env.PORT || 8000;
 app.listen(port, () => console.log(`Server is running on port ${port}`));
+// "client-install": "npm install --prefix client",
+//     "client": "npm start --prefix client",
+//     "server": "nodemon --experimental-modules --es-module-specifier-resolution=node server.js",
+//     "dev": "concurrently \"npm run server\" \"npm run client\"",
+//     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"

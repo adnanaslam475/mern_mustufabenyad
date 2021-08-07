@@ -32,3 +32,7 @@
     width: 50%;
     color:blue;
   }
+  .ap-input, .ap-hint{
+    margin-left: 8px;
+    width: 100%;
+  }
